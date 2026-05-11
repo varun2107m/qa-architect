@@ -1,0 +1,9 @@
+name: retries
+
+type: capability
+
+files:
+  - retry.config.ts.j2
+
+dependencies:
+  - async-retry

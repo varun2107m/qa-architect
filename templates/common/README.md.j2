@@ -1,0 +1,26 @@
+# {{ framework }} Automation Framework
+
+## Language
+{{ language }}
+
+## Architecture
+{{ architecture_pattern }}
+
+## Capabilities
+
+{% for capability in capabilities %}
+- {{ capability.name }}
+{% endfor %}
+
+## Integrations
+
+{% for integration in integrations %}
+- {{ integration.name }}
+{% endfor %}
+
+## Installation
+
+```bash
+npm install
+npx playwright install
+

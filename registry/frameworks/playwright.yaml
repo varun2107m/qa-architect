@@ -1,0 +1,24 @@
+name: playwright
+
+type: ui_automation
+
+languages:
+  - typescript
+  - javascript
+  - python
+  - java
+
+supports:
+  - parallel_execution
+  - tracing
+  - screenshots
+  - api_testing
+  - mobile_web
+  - retries
+  - fixtures
+
+architecture_patterns:
+  - pom
+  - screenplay
+  - hybrid
+  

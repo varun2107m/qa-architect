@@ -1,0 +1,12 @@
+name: typescript
+
+build_tools:
+  - npm
+  - yarn
+  - pnpm
+
+supports:
+  - async
+  - modular
+  - strong_typing
+  

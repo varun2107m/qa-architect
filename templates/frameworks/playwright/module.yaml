@@ -1,0 +1,78 @@
+folders:
+
+  - src/pages
+  - src/pages/base
+  - src/pages/auth
+  - src/pages/dashboard
+
+  - src/tests
+  - src/tests/smoke
+  - src/tests/regression
+  - src/tests/sanity
+  - src/tests/e2e
+  - src/tests/api
+
+  - src/utils
+  - src/hooks
+  - src/fixtures
+  - src/helpers
+  - src/constants
+  - src/data
+  - src/logger
+  - src/api
+  - src/assertions
+  - src/factories
+  - src/locators
+  - src/schemas
+  - src/integrations
+
+  - reports
+  - screenshots
+  - videos
+  - logs
+  - uploads
+  - test-data
+
+  - docs
+
+files:
+
+  - source: frameworks/playwright/package.json.j2
+    target: package.json
+
+  - source: frameworks/playwright/tsconfig.json.j2
+    target: tsconfig.json
+
+  - source: frameworks/playwright/playwright.config.ts.j2
+    target: playwright.config.ts
+
+  - source: frameworks/playwright/base.page.ts.j2
+    target: src/pages/base/base.page.ts
+
+  - source: frameworks/playwright/sample.spec.ts.j2
+    target: src/tests/smoke/sample.spec.ts
+
+  - source: frameworks/playwright/env.qa.j2
+    target: .env.qa
+
+  - source: frameworks/playwright/env.stage.j2
+    target: .env.stage
+
+  - source: frameworks/playwright/env.prod.j2
+    target: .env.prod
+
+  - source: frameworks/playwright/gitignore.j2
+    target: .gitignore
+
+  - source: frameworks/playwright/logger.ts.j2
+    target: src/logger/logger.ts
+
+  - source: frameworks/playwright/api.client.ts.j2
+    target: src/api/api.client.ts
+
+  - source: frameworks/playwright/testdata.json.j2
+    target: test-data/testdata.json
+
+  - source: frameworks/playwright/github-actions.yml.j2
+    target: .github/workflows/playwright.yml
+    

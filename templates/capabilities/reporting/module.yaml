@@ -1,0 +1,9 @@
+name: reporting
+
+type: capability
+
+dependencies:
+  - allure-playwright
+
+files:
+  - reporter.ts.j2

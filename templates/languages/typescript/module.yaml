@@ -1,0 +1,10 @@
+name: typescript
+
+type: language
+
+files:
+  - tsconfig.json.j2
+
+dependencies:
+  - typescript
+  - ts-node

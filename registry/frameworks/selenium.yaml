@@ -1,0 +1,21 @@
+name: selenium
+
+type: ui_automation
+
+languages:
+  - java
+  - python
+  - csharp
+  - javascript
+
+supports:
+  - screenshots
+  - retries
+  - grid_execution
+  - parallel_execution
+
+architecture_patterns:
+  - pom
+  - hybrid
+  - keyword
+  

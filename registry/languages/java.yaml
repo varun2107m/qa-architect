@@ -1,0 +1,10 @@
+name: java
+
+build_tools:
+  - maven
+  - gradle
+
+supports:
+  - oop
+  - multithreading
+  - enterprise_scalability

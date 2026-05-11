@@ -1,0 +1,7 @@
+name: docker
+
+type: integration
+
+files:
+  - Dockerfile.j2
+  - docker-compose.yml.j2

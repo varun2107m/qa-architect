@@ -1,0 +1,10 @@
+name: pom
+
+type: pattern
+
+folders:
+  - src/pages
+  - src/tests
+
+files:
+  - base.page.ts.j2

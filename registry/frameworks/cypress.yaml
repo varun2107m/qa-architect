@@ -1,0 +1,16 @@
+name: cypress
+
+type: ui_automation
+
+languages:
+  - javascript
+  - typescript
+
+supports:
+  - screenshots
+  - retries
+  - api_testing
+
+architecture_patterns:
+  - pom
+  - hybrid
