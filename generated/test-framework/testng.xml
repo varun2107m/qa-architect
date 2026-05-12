@@ -1,9 +1,0 @@
-<suite name="QA Suite">
-
-    <test name="Smoke Tests">
-        <classes>
-            <class name="tests.SampleTest"/>
-        </classes>
-    </test>
-
-</suite>
