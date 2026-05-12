@@ -1,0 +1,23 @@
+name: pytest-python
+
+folders:
+  - tests
+  - pages
+  - utils
+  - reports
+  - screenshots
+  - logs
+
+files:
+  - source: requirements.txt.j2
+    target: requirements.txt
+
+  - source: conftest.py.j2
+    target: conftest.py
+
+  - source: base_page.py.j2
+    target: pages/base_page.py
+
+  - source: sample_test.py.j2
+    target: tests/test_sample.py
+    

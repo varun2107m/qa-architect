@@ -1,221 +1,129 @@
-import os
+from types import SimpleNamespace
+
+from backend.app.generator.framework_generator import generate_framework
 
 
-def create_file(path, content=""):
+def detect_framework(prompt):
 
-    os.makedirs(
-        os.path.dirname(path),
-        exist_ok=True
+    prompt_lower = prompt.lower()
+
+    if "rest assured" in prompt_lower or "restassured" in prompt_lower:
+        return "rest assured"
+
+    if "selenium" in prompt_lower:
+        return "selenium"
+
+    if "cypress" in prompt_lower:
+        return "cypress"
+
+    if "appium" in prompt_lower:
+        return "appium"
+
+    if "pytest" in prompt_lower:
+        return "pytest"
+
+    if "playwright" in prompt_lower:
+        return "playwright"
+
+    return "playwright"
+
+
+def detect_language(prompt, framework):
+
+    prompt_lower = prompt.lower()
+
+    if "java" in prompt_lower:
+        return "java"
+
+    if "python" in prompt_lower:
+        return "python"
+
+    if "javascript" in prompt_lower or "js" in prompt_lower:
+        return "javascript"
+
+    if "typescript" in prompt_lower or "ts" in prompt_lower:
+        return "typescript"
+
+    if framework in ["selenium", "rest assured", "restassured", "appium"]:
+        return "java"
+
+    if framework == "pytest":
+        return "python"
+
+    if framework == "cypress":
+        return "typescript"
+
+    return "typescript"
+
+
+def detect_capabilities(prompt):
+
+    prompt_lower = prompt.lower()
+
+    capabilities = []
+
+    if "api" in prompt_lower:
+        capabilities.append("api_testing")
+
+    if "fixture" in prompt_lower or "fixtures" in prompt_lower:
+        capabilities.append("fixtures")
+
+    if "hook" in prompt_lower or "hooks" in prompt_lower:
+        capabilities.append("hooks")
+
+    if "report" in prompt_lower or "reporting" in prompt_lower:
+        capabilities.append("reporting")
+
+    if "docker" in prompt_lower:
+        capabilities.append("docker")
+
+    if "ci" in prompt_lower or "cd" in prompt_lower or "pipeline" in prompt_lower:
+        capabilities.append("cicd")
+
+    if "screenshot" in prompt_lower or "screenshots" in prompt_lower:
+        capabilities.append("screenshots")
+
+    if "video" in prompt_lower or "videos" in prompt_lower:
+        capabilities.append("videos")
+
+    if "parallel" in prompt_lower:
+        capabilities.append("parallel_execution")
+
+    if "log" in prompt_lower or "logging" in prompt_lower:
+        capabilities.append("logging")
+
+    return capabilities
+
+
+def generate_from_prompt(prompt, output_dir):
+
+    framework = detect_framework(prompt)
+    language = detect_language(prompt, framework)
+    capabilities = detect_capabilities(prompt)
+
+    spec = SimpleNamespace(
+        framework=framework,
+        language=language,
+        architecture_pattern="enterprise",
+        capabilities=capabilities,
+        integrations=[],
+        automation_types=["ui", "api"]
     )
 
-    with open(path, "w") as file:
-        file.write(content)
-
-
-def generate_from_prompt(
-    prompt,
-    output_dir
-):
-
-    # -----------------------------------
-    # ENTERPRISE QA FRAMEWORK STRUCTURE
-    # -----------------------------------
-
-    folders = [
-
-        # Core
-        "src/pages",
-        "src/components",
-        "src/flows",
-        "src/tests",
-
-        # API
-        "src/api",
-        "src/services",
-
-        # Utilities
-        "src/utils",
-        "src/helpers",
-        "src/constants",
-        "src/config",
-
-        # Enterprise
-        "src/fixtures",
-        "src/hooks",
-        "src/factories",
-        "src/models",
-        "src/validations",
-        "src/locators",
-
-        # Test data
-        "src/data",
-
-        # Environments
-        "environments",
-
-        # Reporting
-        "reports",
-        "logs",
-        "screenshots",
-        "videos",
-        "test-results",
-
-        # CI/CD
-        ".github/workflows",
-
-        # Docker
-        "docker",
-
-        # Scripts
-        "scripts"
-    ]
-
-    # -----------------------------------
-    # CREATE FOLDERS
-    # -----------------------------------
-
-    for folder in folders:
-
-        os.makedirs(
-            os.path.join(output_dir, folder),
-            exist_ok=True
-        )
-
-    # -----------------------------------
-    # CREATE FILES
-    # -----------------------------------
-
-    files = {
-
-        "README.md": "# Enterprise QA Framework",
-
-        ".gitignore": """
-node_modules/
-playwright-report/
-test-results/
-.env
-""",
-
-        "package.json": """
-{
-  "name": "enterprise-playwright-framework",
-  "version": "1.0.0",
-  "scripts": {
-    "test": "playwright test"
-  }
-}
-""",
-
-        "playwright.config.ts": """
-import { defineConfig } from '@playwright/test';
-
-export default defineConfig({
-  testDir: './src/tests',
-  retries: 1,
-  use: {
-    headless: true,
-    screenshot: 'only-on-failure'
-  }
-});
-""",
-
-        "tsconfig.json": """
-{
-  "compilerOptions": {
-    "target": "ES2020"
-  }
-}
-""",
-
-        "src/pages/base.page.ts": """
-export class BasePage {
-
-}
-""",
-
-        "src/utils/logger.ts": """
-export function log(message: string) {
-    console.log(message);
-}
-""",
-
-        "src/api/api.client.ts": """
-export class ApiClient {
-
-}
-""",
-
-        "src/hooks/test.hooks.ts": """
-export const hooks = {};
-""",
-
-        "src/fixtures/test.fixture.ts": """
-export const fixture = {};
-""",
-
-        ".github/workflows/playwright.yml": """
-name: Playwright Tests
-""",
-
-        "docker/docker-compose.yml": """
-version: '3'
-""",
-
-        "environments/qa.env": "BASE_URL=https://qa.example.com",
-
-        "environments/stage.env": "BASE_URL=https://stage.example.com",
-
-        "environments/prod.env": "BASE_URL=https://prod.example.com"
-    }
-
-    for relative_path, content in files.items():
-
-        full_path = os.path.join(
-            output_dir,
-            relative_path
-        )
-
-        create_file(
-            full_path,
-            content
-        )
-
-    # -----------------------------------
-    # RESPONSE
-    # -----------------------------------
+    generation = generate_framework(
+        spec,
+        output_dir
+    )
 
     return {
-
         "analysis": {
-
-            "framework": "Playwright",
-
-            "language": "TypeScript",
-
-            "architecture_pattern": "Enterprise",
-
-            "capabilities": [
-
-                "API testing",
-                "fixtures",
-                "hooks",
-                "docker",
-                "reporting",
-                "CI/CD"
-            ]
+            "framework": framework,
+            "language": language,
+            "architecture_pattern": "enterprise",
+            "capabilities": capabilities,
+            "automation_types": ["ui", "api"]
         },
-
-        "generation": {
-
-            "status": "success",
-
-            "mode": "AI_ARCHITECT_MODE",
-
-            "output_dir": output_dir,
-
-            "folders_generated": len(folders),
-
-            "files_generated": len(files)
-        }
+        "generation": generation
     }
+
 

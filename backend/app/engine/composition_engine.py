@@ -1,82 +1,129 @@
+import os
+import yaml
+
+from backend.app.core.framework_resolver import resolve_framework_stack
+
+
+BASE_DIR = os.path.abspath(
+    os.path.join(
+        os.path.dirname(__file__),
+        "../../../"
+    )
+)
+
+FRAMEWORK_TEMPLATE_DIR = os.path.join(
+    BASE_DIR,
+    "templates",
+    "frameworks"
+)
+
+
+def load_module(template_key):
+
+    module_path = os.path.join(
+        FRAMEWORK_TEMPLATE_DIR,
+        template_key,
+        "module.yaml"
+    )
+
+    if not os.path.exists(module_path):
+
+        print(
+            f"[WARN] Missing module.yaml for {template_key}. "
+            "Falling back to playwright-ts."
+        )
+
+        template_key = "playwright-ts"
+
+        module_path = os.path.join(
+            FRAMEWORK_TEMPLATE_DIR,
+            template_key,
+            "module.yaml"
+        )
+
+    with open(
+        module_path,
+        "r",
+        encoding="utf-8"
+    ) as file:
+
+        module = yaml.safe_load(file)
+
+    module["template_key"] = template_key
+
+    prepared_files = []
+
+    for file_config in module.get("files", []):
+
+        if not isinstance(file_config, dict):
+            continue
+
+        source = file_config.get("source")
+        target = file_config.get("target")
+
+        if not source or not target:
+            continue
+
+        prepared_files.append(
+            {
+                "source": f"frameworks/{template_key}/{source}",
+                "target": target
+            }
+        )
+
+    module["files"] = prepared_files
+
+    return module
+
+
 def compose_framework(spec):
 
     framework = getattr(spec, "framework", "playwright")
     language = getattr(spec, "language", "typescript")
     capabilities = getattr(spec, "capabilities", [])
 
-    modules = []
+    template_key = resolve_framework_stack(
+        framework,
+        language
+    )
 
-    # -----------------------------
-    # BASE MODULE (ALWAYS INCLUDED)
-    # -----------------------------
-    modules.append({
-        "folders": [
-            "src/pages",
-            "src/tests",
-            "src/utils",
-            "src/config"
-        ],
-        "files": [
-            {
-                "source": "frameworks/playwright/base.page.ts.j2",
-                "target": "src/pages/base.page.ts"
-            },
-            {
-                "source": "frameworks/playwright/playwright.config.ts.j2",
-                "target": "playwright.config.ts"
-            }
-        ]
-    })
+    print(f"[INFO] TEMPLATE KEY = {template_key}")
 
-    # -----------------------------
-    # OPTIONAL CAPABILITIES (SAFE)
-    # -----------------------------
-    capability_map = {
+    modules = [
+        load_module(template_key)
+    ]
 
-        "retries": {
-            "folders": [],
-            "files": []
-        },
-
-        "reporting": {
-            "folders": ["reports"],
-            "files": []
-        },
-
-        "docker": {
-            "folders": [],
-            "files": [
-                {
-                    "source": "frameworks/playwright/docker-compose.yml.j2",
-                    "target": "docker-compose.yml"
-                }
-            ]
-        },
-
-        "api_testing": {
-            "folders": ["src/api"],
-            "files": []
-        },
-
-        "fixtures": {
-            "folders": ["src/fixtures"],
-            "files": []
-        },
-
-        "hooks": {
-            "folders": ["src/hooks"],
-            "files": []
-        }
+    capability_folders = {
+        "reporting": ["reports"],
+        "docker": ["docker"],
+        "api_testing": ["src/api"],
+        "fixtures": ["src/fixtures"],
+        "hooks": ["src/hooks"],
+        "cicd": [".github/workflows"],
+        "screenshots": ["screenshots"],
+        "videos": ["videos"],
+        "logging": ["logs"],
+        "parallel_execution": []
     }
 
-    for cap in capabilities or []:
+    for capability in capabilities or []:
 
-        module = capability_map.get(cap)
+        folders = capability_folders.get(
+            str(capability).lower(),
+            []
+        )
 
-        if module:
-            modules.append(module)
-        else:
-            print(f"[WARN] Unknown capability skipped: {cap}")
+        if folders:
+
+            modules.append(
+                {
+                    "name": capability,
+                    "folders": folders,
+                    "files": []
+                }
+            )
 
     return modules
+
+
 

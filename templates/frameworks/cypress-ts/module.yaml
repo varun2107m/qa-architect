@@ -1,0 +1,22 @@
+name: cypress-ts
+
+folders:
+  - cypress/e2e
+  - cypress/support
+  - reports
+  - screenshots
+  - videos
+
+files:
+  - source: package.json.j2
+    target: package.json
+
+  - source: cypress.config.ts.j2
+    target: cypress.config.ts
+
+  - source: commands.ts.j2
+    target: cypress/support/commands.ts
+
+  - source: sample.cy.ts.j2
+    target: cypress/e2e/sample.cy.ts
+    

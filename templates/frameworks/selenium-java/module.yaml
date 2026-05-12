@@ -1,0 +1,27 @@
+name: selenium-java
+
+folders:
+  - src/main/java/base
+  - src/main/java/pages
+  - src/main/java/utils
+  - src/test/java/tests
+  - reports
+  - screenshots
+  - logs
+
+files:
+  - source: pom.xml.j2
+    target: pom.xml
+
+  - source: testng.xml.j2
+    target: testng.xml
+
+  - source: BaseTest.java.j2
+    target: src/main/java/base/BaseTest.java
+
+  - source: DriverFactory.java.j2
+    target: src/main/java/base/DriverFactory.java
+
+  - source: sample_test.java.j2
+    target: src/test/java/tests/SampleTest.java
+    

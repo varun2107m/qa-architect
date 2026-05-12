@@ -1,0 +1,19 @@
+package api;
+
+import io.restassured.response.Response;
+
+import static io.restassured.RestAssured.given;
+
+public class ApiClient {
+
+    public Response get(String url) {
+        return given().get(url);
+    }
+
+    public Response post(String url, Object body) {
+        return given()
+                .header("Content-Type", "application/json")
+                .body(body)
+                .post(url);
+    }
+}

@@ -1,8 +1,0 @@
-
-{
-  "name": "enterprise-playwright-framework",
-  "version": "1.0.0",
-  "scripts": {
-    "test": "playwright test"
-  }
-}

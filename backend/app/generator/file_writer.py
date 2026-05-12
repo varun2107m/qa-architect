@@ -1,17 +1,13 @@
 import os
 
 
-def write_file(
-    path,
-    content
-):
+def write_file(path, content):
 
-    parent_dir = os.path.dirname(path)
+    parent = os.path.dirname(path)
 
-    if parent_dir:
-
+    if parent:
         os.makedirs(
-            parent_dir,
+            parent,
             exist_ok=True
         )
 
@@ -22,4 +18,5 @@ def write_file(
     ) as file:
 
         file.write(content)
+        
         

@@ -1,0 +1,30 @@
+name: restassured-java
+
+folders:
+  - src/main/java/api
+  - src/main/java/config
+  - src/main/java/utils
+  - src/test/java/tests
+  - reports
+  - logs
+  - test-data
+
+files:
+  - source: pom.xml.j2
+    target: pom.xml
+
+  - source: BaseApiTest.java.j2
+    target: src/test/java/tests/BaseApiTest.java
+
+  - source: ApiClient.java.j2
+    target: src/main/java/api/ApiClient.java
+
+  - source: ConfigManager.java.j2
+    target: src/main/java/config/ConfigManager.java
+
+  - source: SampleApiTest.java.j2
+    target: src/test/java/tests/SampleApiTest.java
+
+  - source: testdata.json.j2
+    target: test-data/testdata.json
+    

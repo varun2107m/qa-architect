@@ -41,10 +41,10 @@ exports.deactivate = deactivate;
 const vscode = __importStar(require("vscode"));
 const axios_1 = __importDefault(require("axios"));
 function activate(context) {
-    console.log('QA Architect AI extension activated');
+    console.log('QA Architect AI activated');
     const disposable = vscode.commands.registerCommand('qa-architect.generateFramework', async () => {
         const prompt = await vscode.window.showInputBox({
-            placeHolder: 'Describe the QA framework you want to generate'
+            placeHolder: 'Describe the QA framework to generate'
         });
         if (!prompt) {
             return;
@@ -52,7 +52,7 @@ function activate(context) {
         try {
             const response = await axios_1.default.post('http://127.0.0.1:8001/generate', {
                 prompt,
-                output_dir: 'generated/test-framework'
+                output_dir: '/Users/varunmalhotra/Desktop/qa-architect/generated/test-framework'
             });
             vscode.window.showInformationMessage('Framework generated successfully!');
             console.log(response.data);

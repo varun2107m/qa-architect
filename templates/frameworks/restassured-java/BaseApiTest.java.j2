@@ -1,0 +1,10 @@
+package tests;
+
+import api.ApiClient;
+import config.ConfigManager;
+
+public class BaseApiTest {
+
+    protected ApiClient apiClient = new ApiClient();
+    protected String baseUrl = ConfigManager.getBaseUrl();
+}
