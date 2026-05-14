@@ -3,46 +3,54 @@
   "displayName": "QA Architect AI",
   "description": "AI-powered QA automation framework generator",
   "version": "0.0.1",
-
   "engines": {
     "vscode": "^1.85.0"
   },
-
   "categories": [
     "Other"
   ],
-
   "main": "./dist/extension.js",
-
   "activationEvents": [
     "onCommand:qa-architect.generateFramework"
   ],
-
   "contributes": {
     "commands": [
       {
         "command": "qa-architect.generateFramework",
         "title": "Generate QA Framework"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "QA Architect AI",
+      "properties": {
+        "qaArchitect.apiUrl": {
+          "type": "string",
+          "default": "http://127.0.0.1:8001",
+          "description": "Backend API URL for QA Architect AI"
+        },
+        "qaArchitect.outputDir": {
+          "type": "string",
+          "default": "generated/test-framework",
+          "description": "Relative output directory for generated frameworks"
+        }
+      }
+    }
   },
-
   "scripts": {
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "package": "vsce package",
     "pretest": "npm run compile"
   },
-
   "dependencies": {
     "axios": "^1.7.2"
   },
-
   "devDependencies": {
     "@types/node": "^20.19.40",
-    "@types/vscode": "^1.118.0",
+    "@types/vscode": "^1.85.0",
     "typescript": "^5.9.3",
     "vsce": "^2.15.0"
   }
 }
+
 
